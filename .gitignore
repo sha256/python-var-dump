@@ -1,0 +1,5 @@
+*.pyc
+.gitignore
+*.db
+.idea/
+*.iml
