@@ -4,7 +4,7 @@ from types import NoneType
 __author__ = "Shamim Hasnath"
 __copyright__ = "Copyright 2013, Shamim Hasnath"
 __license__ = "BSD License"
-__version__ = "1.0"
+__version__ = "1.0.1"
 
 
 TAB_SIZE = 4
@@ -26,7 +26,7 @@ def display(o, space, num, key, typ):
         st += "#%d "
         l.append(num)
 
-    if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType):
+    if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType, unicode):
         st += "%s(%s) "
         l.append(type(o).__name__)
 
@@ -35,7 +35,7 @@ def display(o, space, num, key, typ):
         else:
             l.append(len(o))
 
-        if type(o) is str:
+        if type(o) in (str, unicode):
             st += '"%s"'
             l.append(o)
 
@@ -49,13 +49,13 @@ def display(o, space, num, key, typ):
 
 def dump(o, space, num, key, typ):
 
-    if type(o) in (str, int, float, long, bool, NoneType):
+    if type(o) in (str, int, float, long, bool, NoneType, unicode):
         display(o, space, num, key, typ)
 
     elif isinstance(o, object):
         display(o, space, num, key, typ)
         num = 0
-        if type(o) in (tuple, list, dict, bool):
+        if type(o) in (tuple, list, dict):
             typ = type(o)  # type of the container of str, int, long, float etc
         elif isinstance(o, object):
             o = o.__dict__
@@ -72,7 +72,7 @@ def dump(o, space, num, key, typ):
 
 def var_dump(*obs):
     """
-      shows
+      shows structured information of a object, list, tuple etc
     """
     i = 0
     for x in obs:
