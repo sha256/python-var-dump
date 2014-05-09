@@ -10,6 +10,7 @@ __version__ = "1.0.1"
 TAB_SIZE = 4
 
 
+
 def display(o, space, num, key, typ):
     st = ""
     l = []
@@ -42,7 +43,7 @@ def display(o, space, num, key, typ):
     elif isinstance(o, object):
         st += "object(%s) (%d)"
         l.append(o.__class__.__name__)
-        l.append(len(o.__dict__))
+        l.append(len(getattr(o, '__dict__', {})))
 
     print(st % tuple(l))
 
@@ -58,7 +59,7 @@ def dump(o, space, num, key, typ):
         if type(o) in (tuple, list, dict):
             typ = type(o)  # type of the container of str, int, long, float etc
         elif isinstance(o, object):
-            o = o.__dict__
+            o = getattr(o, '__dict__', {})
             typ = object
         for i in o:
             space += TAB_SIZE
