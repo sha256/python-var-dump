@@ -1,6 +1,3 @@
-from __future__ import print_function
-from types import NoneType
-
 __author__ = "Shamim Hasnath"
 __copyright__ = "Copyright 2013, Shamim Hasnath"
 __license__ = "BSD License"
@@ -8,6 +5,7 @@ __version__ = "1.0.1"
 
 
 TAB_SIZE = 4
+NoneType = type(None)
 
 
 
@@ -27,16 +25,16 @@ def display(o, space, num, key, typ):
         st += "#%d "
         l.append(num)
 
-    if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType, unicode):
+    if type(o) in (tuple, list, dict, int, str, float, bool, NoneType, bytes):
         st += "%s(%s) "
         l.append(type(o).__name__)
 
-        if type(o) in (int, float, long, bool, NoneType):
+        if type(o) in (int, float, bool, NoneType):
             l.append(o)
         else:
             l.append(len(o))
 
-        if type(o) in (str, unicode):
+        if type(o) in (str, bytes):
             st += '"%s"'
             l.append(o)
 
@@ -50,7 +48,7 @@ def display(o, space, num, key, typ):
 
 def dump(o, space, num, key, typ):
 
-    if type(o) in (str, int, float, long, bool, NoneType, unicode):
+    if type(o) in (str, int, float, bool, NoneType, bytes):
         display(o, space, num, key, typ)
 
     elif isinstance(o, object):
