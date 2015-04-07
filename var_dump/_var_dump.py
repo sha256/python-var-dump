@@ -40,6 +40,11 @@ def display(o, space, num, key, typ):
             st += '"%s"'
             l.append(o)
 
+    elif type(o).__name__ == 'datetime':
+        st += "%s(%s)"
+        l.append(type(o).__name__)
+        l.append(o.__str__())
+
     elif isinstance(o, object):
         st += "object(%s) (%d)"
         l.append(o.__class__.__name__)
