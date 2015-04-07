@@ -1,6 +1,8 @@
 from __future__ import print_function
 from types import NoneType
 
+import datetime
+
 __author__ = "Shamim Hasnath"
 __copyright__ = "Copyright 2013, Shamim Hasnath"
 __license__ = "BSD License"
@@ -8,7 +10,6 @@ __version__ = "1.0.1"
 
 
 TAB_SIZE = 4
-
 
 
 def display(o, space, num, key, typ):
@@ -27,12 +28,15 @@ def display(o, space, num, key, typ):
         st += "#%d "
         l.append(num)
 
-    if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType, unicode):
+    if type(o) in (tuple, list, dict, int, str, float, long, bool,
+                   NoneType, unicode, datetime.datetime):
         st += "%s(%s) "
         l.append(type(o).__name__)
 
         if type(o) in (int, float, long, bool, NoneType):
             l.append(o)
+        elif isinstance(o, datetime.datetime):
+            l.append(str(o))
         else:
             l.append(len(o))
 
