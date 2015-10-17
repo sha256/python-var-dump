@@ -59,12 +59,12 @@ def display(o, space, num, key, typ, display):
 		return st % tuple(l)
 
 
-def dump(o, space, num, key, typ):
+def dump(o, space, num, key, typ, proret):
 	if type(o) in (str, int, float, long, bool, NoneType, unicode):
-		display(o, space, num, key, typ)
+		display(o, space, num, key, typ, proret)
 
 	elif isinstance(o, object):
-		display(o, space, num, key, typ)
+		display(o, space, num, key, typ, proret)
 		num = 0
 		if type(o) in (tuple, list, dict):
 			typ = type(o)  # type of the container of str, int, long, float etc
@@ -74,9 +74,9 @@ def dump(o, space, num, key, typ):
 		for i in o:
 			space += TAB_SIZE
 			if type(o) is dict:
-				dump(o[i], space, num, i, typ)
+				dump(o[i], space, num, i, typ, proret)
 			else:
-				dump(i, space, num, '', typ)
+				dump(i, space, num, '', typ, proret)
 			num += 1
 			space -= TAB_SIZE
 
@@ -101,4 +101,3 @@ def var_export(*obs):
 		r += dump(x, 0, i, '', object, False)
 		i += 1
 	return r
-
