@@ -1,5 +1,14 @@
 from __future__ import print_function
-from types import NoneType
+import sys
+
+try:
+	from types import NoneType
+except:
+	NoneType = type(None)
+
+if sys.version_info > (3,):
+	long = int
+	unicode = str
 
 __author__ = "Shamim Hasnath"
 __copyright__ = "Copyright 2013, Shamim Hasnath"
