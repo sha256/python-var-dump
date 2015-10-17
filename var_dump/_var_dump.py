@@ -19,7 +19,7 @@ __version__ = "1.0.1"
 TAB_SIZE = 4
 
 
-def display(o, space, num, key, typ, display):
+def display(o, space, num, key, typ, proret):
 	st = ""
 	l = []
 	if key:
@@ -53,18 +53,19 @@ def display(o, space, num, key, typ, display):
 		l.append(o.__class__.__name__)
 		l.append(len(o.__dict__))
 
-	if display:
+	if proret:
 		print(st % tuple(l))
-	else:
-		return st % tuple(l)
+
+	return st % tuple(l)
 
 
 def dump(o, space, num, key, typ, proret):
+	r = '';
 	if type(o) in (str, int, float, long, bool, NoneType, unicode):
-		display(o, space, num, key, typ, proret)
+		r += display(o, space, num, key, typ, proret)
 
 	elif isinstance(o, object):
-		display(o, space, num, key, typ, proret)
+		r += display(o, space, num, key, typ, proret)
 		num = 0
 		if type(o) in (tuple, list, dict):
 			typ = type(o)  # type of the container of str, int, long, float etc
@@ -74,11 +75,12 @@ def dump(o, space, num, key, typ, proret):
 		for i in o:
 			space += TAB_SIZE
 			if type(o) is dict:
-				dump(o[i], space, num, i, typ, proret)
+				r += dump(o[i], space, num, i, typ, proret)
 			else:
-				dump(i, space, num, '', typ, proret)
+				r += dump(i, space, num, '', typ, proret)
 			num += 1
 			space -= TAB_SIZE
+	return r
 
 
 def var_dump(*obs):
