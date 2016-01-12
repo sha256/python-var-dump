@@ -49,9 +49,12 @@ def display(o, space, num, key, typ, proret):
 			l.append(o)
 
 	elif isinstance(o, object):
-		st += "object(%s) (%d)"
+		st += "object(%s) (%s)"
 		l.append(o.__class__.__name__)
-		l.append(len(o.__dict__))
+		try:
+			l.append(str(len(o.__dict__)))
+		except AttributeError:
+			l.append(str(o))
 
 	if proret:
 		print(st % tuple(l))
@@ -70,8 +73,11 @@ def dump(o, space, num, key, typ, proret):
 		if type(o) in (tuple, list, dict):
 			typ = type(o)  # type of the container of str, int, long, float etc
 		elif isinstance(o, object):
-			o = o.__dict__
-			typ = object
+			try:
+				o = o.__dict__
+				typ = object
+			except AttributeError:
+				return
 		for i in o:
 			space += TAB_SIZE
 			if type(o) is dict:
