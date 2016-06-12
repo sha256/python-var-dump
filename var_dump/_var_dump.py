@@ -35,11 +35,11 @@ def display(o, space, num, key, typ, proret):
 		st += "#%d "
 		l.append(num)
 
-	if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType, unicode):
+	if type(o) in (tuple, list, dict, int, str, float, long, bool, NoneType, unicode, file):
 		st += "%s(%s) "
 		l.append(type(o).__name__)
 
-		if type(o) in (int, float, long, bool, NoneType):
+		if type(o) in (int, float, long, bool, NoneType, file):
 			l.append(o)
 		else:
 			l.append(len(o))
@@ -61,7 +61,7 @@ def display(o, space, num, key, typ, proret):
 
 def dump(o, space, num, key, typ, proret):
 	r = '';
-	if type(o) in (str, int, float, long, bool, NoneType, unicode):
+	if type(o) in (str, int, float, long, bool, NoneType, unicode, file):
 		r += display(o, space, num, key, typ, proret)
 
 	elif isinstance(o, object):
