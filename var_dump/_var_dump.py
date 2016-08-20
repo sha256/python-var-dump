@@ -1,5 +1,4 @@
 from __future__ import print_function
-from datetime import datetime
 import sys
 
 try:
