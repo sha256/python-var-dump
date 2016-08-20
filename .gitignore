@@ -3,3 +3,4 @@
 *.db
 .idea/
 *.iml
+test.py
