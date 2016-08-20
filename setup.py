@@ -2,14 +2,14 @@ from distutils.core import setup
 
 setup(
     name='var_dump',
-    version='1.0',
+    version='1.1',
     packages=['var_dump'],
-    url='http://bitbucket.org/sha256/python-var_dump',
-    license='MIT',
+    url='http://github.com/sha256/python-var-dump',
+    license='BSD',
     author='Shamim Hasnath',
     author_email='shamim@hasnath.net',
     description='PHP like var_dump for python',
-    download_url='http://github.com/sha256/python-var_dump/tarball',
+    download_url='http://github.com/sha256/python-var-dump/tarball',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: BSD License',

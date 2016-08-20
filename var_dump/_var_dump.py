@@ -1,5 +1,5 @@
 from __future__ import print_function
-
+from datetime import datetime
 import sys
 
 try:
@@ -14,7 +14,7 @@ if sys.version_info > (3,):
 __author__ = "Shamim Hasnath"
 __copyright__ = "Copyright 2013, Shamim Hasnath"
 __license__ = "BSD License"
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
 TAB_SIZE = 4
 
@@ -49,9 +49,12 @@ def display(o, space, num, key, typ, proret):
             l.append(o)
 
     elif isinstance(o, object):
-        st += "object(%s) (%d)"
+        st += "object(%s) (%s)"
         l.append(o.__class__.__name__)
-        l.append(len(o.__dict__))
+        try:
+            l.append(len(o.__dict__))
+        except AttributeError:
+            l.append(str(o))
 
     if proret:
         print(st % tuple(l))
@@ -70,7 +73,10 @@ def dump(o, space, num, key, typ, proret):
         if type(o) in (tuple, list, dict):
             typ = type(o)  # type of the container of str, int, long, float etc
         elif isinstance(o, object):
-            o = o.__dict__
+            try:
+                o = o.__dict__
+            except AttributeError:
+                return r
             typ = object
         for i in o:
             space += TAB_SIZE
