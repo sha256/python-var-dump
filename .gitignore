@@ -1,6 +1,7 @@
 *.pyc
-.gitignore
 *.db
 .idea/
 *.iml
 test.py
+MANIFEST
+dist/
