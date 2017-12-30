@@ -3,7 +3,7 @@ import sys
 
 try:
     from enum import Enum
-except expression as identifier:
+except ImportError:
     Enum = type(str)
 
 try:
@@ -18,7 +18,7 @@ if sys.version_info > (3,):
 __author__ = "Shamim Hasnath"
 __copyright__ = "Copyright 2013, Shamim Hasnath"
 __license__ = "BSD License"
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 TAB_SIZE = 4
 
