@@ -2,6 +2,11 @@ from __future__ import print_function
 import sys
 
 try:
+    from enum import Enum
+except expression as identifier:
+    Enum = type(str)
+
+try:
     from types import NoneType
 except ImportError:
     NoneType = type(None)
@@ -47,6 +52,10 @@ def display(o, space, num, key, typ, proret):
             st += '"%s"'
             l.append(o)
 
+    elif isinstance(o, Enum):
+        st += "Enum(%s)"
+        l.append(str(o))
+
     elif isinstance(o, object):
         st += "object(%s) (%s)"
         l.append(o.__class__.__name__)
@@ -63,7 +72,10 @@ def display(o, space, num, key, typ, proret):
 
 def dump(o, space, num, key, typ, proret):
     r = ''
-    if type(o) in (str, int, float, long, bool, NoneType, unicode):
+    if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum):
+        r += display(o, space, num, key, typ, proret)
+
+    elif isinstance(o, Enum):
         r += display(o, space, num, key, typ, proret)
 
     elif isinstance(o, object):
