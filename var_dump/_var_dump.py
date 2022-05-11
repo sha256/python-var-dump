@@ -58,7 +58,20 @@ def display(o, space, num, key, typ, proret):
 
     elif isinstance(o, object):
         st += "object(%s) (%s)"
-        l.append(o.__class__.__name__)
+        nameValueString = None
+        try:
+            tmp = o.value
+            if tmp is not None:
+                tmp = str(tmp)
+                nameValueString = tmp
+        except:
+            # o.value does not exist or can not be converted to string
+            pass
+        if nameValueString is None or nameValueString == "":
+            nameValueString = o.__class__.__name__
+        else:
+            nameValueString = o.__class__.__name__ + "(" + nameValueString + ")"
+        l.append(nameValueString)
         try:
             l.append(len(o.__dict__))
         except AttributeError:
