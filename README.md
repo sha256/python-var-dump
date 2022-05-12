@@ -47,32 +47,39 @@ you can pass more than one argument:
 
 #### Example #3: ####
     
-	from var_dump import var_dump
+```python
+from var_dump import var_dump
 
-	class Base(object):
-	
-	    def __init__(self):
-	        self.baseProp = (33, 44)
-			self.fl = 44.33
 
-	class Bar(object):
-	
-	    def __init__(self):
-	        self.barProp = "I'm from Bar class"
-			self.boo = True
-	
-	
-	class Foo(Base):
-	
-	    def __init__(self):
-	        super(Foo, self).__init__()
-	        self.someList = ['foo', 'goo']
-	        self.someTuple = (33, (23, 44), 55)
-	        self.anOb = Bar()
-			self.no = None
-	
-	foo = Foo()
-	var_dump(foo)
+class Base(object):
+
+    def __init__(self):
+        self.baseProp = (33, 44)
+        self.fl = 44.33
+
+
+class Bar(object):
+
+    def __init__(self):
+        self.barProp = "I'm from Bar class"
+        self.boo = True
+
+
+class Foo(Base):
+
+    def __init__(self):
+        super(Foo, self).__init__()
+        self.someList = ['foo', 'goo']
+        self.someTuple = (33, (23, 44), 55)
+        self.anOb = Bar()
+        self.no = None
+
+
+foo = Foo()
+# var_dump(foo)
+print(foo)
+
+```
 
 #### Output ####
 	#0 object(Foo) (6)
