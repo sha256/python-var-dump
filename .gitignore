@@ -5,3 +5,5 @@
 test.py
 MANIFEST
 dist/
+/build/
+/var_dump.egg-info/
