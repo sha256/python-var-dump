@@ -71,15 +71,14 @@ def display(o, space, num, key, typ, proret):
 
 
 def dump(o, space, num, key, typ, proret, recursion=False):
-    r = ''
     if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum):
-        r += display(o, space, num, key, typ, proret)
+        return display(o, space, num, key, typ, proret)
 
-    elif isinstance(o, Enum):
-        r += display(o, space, num, key, typ, proret)
+    if isinstance(o, Enum):
+        return display(o, space, num, key, typ, proret)
 
-    elif isinstance(o, object):
-        r += display(o, space, num, key, typ, proret)
+    if isinstance(o, object):
+        r = display(o, space, num, key, typ, proret)
 
         if recursion:
             r += ' …recursion…'
@@ -103,7 +102,9 @@ def dump(o, space, num, key, typ, proret, recursion=False):
                     r += dump(i, space, num, '', typ, proret)
                 num += 1
                 space -= TAB_SIZE
-    return r
+        return r
+
+    return ''
 
 
 def var_dump(*obs):
