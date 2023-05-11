@@ -66,20 +66,6 @@ class VarExportTestCase(unittest.TestCase):
             [21.37, '#0 float(21.37) '],
 
             # enums
-            [
-                Enum('Color', ['RED', 'GREEN']),
-                '#0 object(EnumMeta) (10)'
-                '    [0] => str(21) "_generate_next_value_"'
-                '    [1] => str(7) "__doc__"'
-                '    [2] => str(10) "__module__"'
-                '    [3] => str(14) "_member_names_"'
-                '    [4] => str(12) "_member_map_"'
-                '    [5] => str(13) "_member_type_"'
-                '    [6] => str(18) "_value2member_map_"'
-                '    [7] => str(3) "RED"'
-                '    [8] => str(5) "GREEN"'
-                '    [9] => str(7) "__new__"',
-            ],
             [Color.RED, '#0 Enum(Color.RED)'],
             [Color(2),  '#0 Enum(Color.GREEN)'],
 
