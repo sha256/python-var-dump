@@ -108,7 +108,7 @@ def dump(o, space, num, key, typ, proret, recursion=False):
 
 def var_dump(*obs):
     """
-        shows structured information of a object, list, tuple etc
+        shows structured information of an object, list, tuple, etc.
     """
     i = 0
     for x in obs:
@@ -118,7 +118,7 @@ def var_dump(*obs):
 
 def var_export(*obs):
     """
-        returns output as as string
+        returns output as string
     """
     r = ''
     i = 0
