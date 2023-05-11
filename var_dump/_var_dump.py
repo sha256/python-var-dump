@@ -70,7 +70,7 @@ def display(o, space, num, key, typ, proret):
     return st % tuple(l)
 
 
-def dump(o, space, num, key, typ, proret, circular_reference=False):
+def dump(o, space, num, key, typ, proret, parents=None):
     if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum) or isinstance(o, Enum):
         return display(o, space, num, key, typ, proret)
 
@@ -79,10 +79,12 @@ def dump(o, space, num, key, typ, proret, circular_reference=False):
 
     r = display(o, space, num, key, typ, proret)
 
-    if circular_reference:
+    if parents is None:
+        parents = []
+    elif o in parents:
         return r + ' …circular reference…'
 
-    o_backup = o
+    parents.append(o)
     num = 0
 
     if type(o) in (tuple, list, dict):
@@ -96,7 +98,7 @@ def dump(o, space, num, key, typ, proret, circular_reference=False):
     for i in o:
         space += TAB_SIZE
         if type(o) is dict:
-            r += dump(o[i], space, num, i, typ, proret, o[i] is o_backup)
+            r += dump(o[i], space, num, i, typ, proret, parents)
         else:
             r += dump(i, space, num, '', typ, proret)
         num += 1

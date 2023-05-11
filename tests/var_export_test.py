@@ -34,6 +34,16 @@ class ObjectWithCircularReference:
         self.r = self
 
 
+class DeepCircularReferenceParent:
+    def __init__(self):
+        self.child = DeepCircularReferenceChild(self)
+
+
+class DeepCircularReferenceChild:
+    def __init__(self, parent: DeepCircularReferenceParent):
+        self.parent = parent
+
+
 class VarExportTestCase(unittest.TestCase):
     def test_var_export(self):
         data = [
@@ -129,6 +139,14 @@ class VarExportTestCase(unittest.TestCase):
             var_export(ObjectWithCircularReference()),
             '#0 object(ObjectWithCircularReference) (1)'
             '    r => object(ObjectWithCircularReference) (1) …circular reference…'
+        )
+
+    def test_var_export_deep_circular_reference(self):
+        self.assertEqual(
+            var_export(DeepCircularReferenceParent()),
+            '#0 object(DeepCircularReferenceParent) (1)'
+            '    child => object(DeepCircularReferenceChild) (1)'
+            '        parent => object(DeepCircularReferenceParent) (1) …circular reference…'
         )
 
 
