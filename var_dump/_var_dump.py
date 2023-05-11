@@ -70,39 +70,43 @@ def display(o, space, num, key, typ, proret):
     return st % tuple(l)
 
 
-def dump(o, space, num, key, typ, proret):
-    r = ''
-    if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum):
-        r += display(o, space, num, key, typ, proret)
+def dump(o, space, num, key, typ, proret, circular_reference=False):
+    if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum) or isinstance(o, Enum):
+        return display(o, space, num, key, typ, proret)
 
-    elif isinstance(o, Enum):
-        r += display(o, space, num, key, typ, proret)
+    if not isinstance(o, object):
+        return ''
 
+    r = display(o, space, num, key, typ, proret)
+
+    if circular_reference:
+        return r + ' …circular reference…'
+
+    o_backup = o
+    num = 0
+
+    if type(o) in (tuple, list, dict):
+        typ = type(o)  # type of the container of str, int, long, float etc
     elif isinstance(o, object):
-        r += display(o, space, num, key, typ, proret)
-        num = 0
-        if type(o) in (tuple, list, dict):
-            typ = type(o)  # type of the container of str, int, long, float etc
-        elif isinstance(o, object):
-            try:
-                o = o.__dict__
-            except AttributeError:
-                return r
-            typ = object
-        for i in o:
-            space += TAB_SIZE
-            if type(o) is dict:
-                r += dump(o[i], space, num, i, typ, proret)
-            else:
-                r += dump(i, space, num, '', typ, proret)
-            num += 1
-            space -= TAB_SIZE
+        try:
+            o = o.__dict__
+        except AttributeError:
+            return r
+        typ = object
+    for i in o:
+        space += TAB_SIZE
+        if type(o) is dict:
+            r += dump(o[i], space, num, i, typ, proret, o[i] is o_backup)
+        else:
+            r += dump(i, space, num, '', typ, proret)
+        num += 1
+        space -= TAB_SIZE
     return r
 
 
 def var_dump(*obs):
     """
-        shows structured information of a object, list, tuple etc
+        shows structured information of an object, list, tuple, etc.
     """
     i = 0
     for x in obs:
@@ -112,7 +116,7 @@ def var_dump(*obs):
 
 def var_export(*obs):
     """
-        returns output as as string
+        returns output as string
     """
     r = ''
     i = 0

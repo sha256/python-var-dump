@@ -95,4 +95,13 @@ you can pass more than one argument:
 	        barProp => str(18) "I'm from Bar class"
 
 
+### Unit tests ###
+----
+
+Tests are written using [`unittest`](https://docs.python.org/3/library/unittest.html).
+
+Run them with `python -m unittest tests`.
+
+---
+
 **License: BSD License**
