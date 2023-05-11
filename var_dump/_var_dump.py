@@ -71,10 +71,7 @@ def display(o, space, num, key, typ, proret):
 
 
 def dump(o, space, num, key, typ, proret, recursion=False):
-    if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum):
-        return display(o, space, num, key, typ, proret)
-
-    if isinstance(o, Enum):
+    if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum) or isinstance(o, Enum):
         return display(o, space, num, key, typ, proret)
 
     if isinstance(o, object):
