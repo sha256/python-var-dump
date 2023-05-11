@@ -74,34 +74,34 @@ def dump(o, space, num, key, typ, proret, recursion=False):
     if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum) or isinstance(o, Enum):
         return display(o, space, num, key, typ, proret)
 
-    if isinstance(o, object):
-        r = display(o, space, num, key, typ, proret)
+    if not isinstance(o, object):
+        return ''
 
-        if recursion:
-            return r + ' …recursion…'
+    r = display(o, space, num, key, typ, proret)
 
-        o_backup = o
-        num = 0
+    if recursion:
+        return r + ' …recursion…'
 
-        if type(o) in (tuple, list, dict):
-            typ = type(o)  # type of the container of str, int, long, float etc
-        elif isinstance(o, object):
-            try:
-                o = o.__dict__
-            except AttributeError:
-                return r
-            typ = object
-        for i in o:
-            space += TAB_SIZE
-            if type(o) is dict:
-                r += dump(o[i], space, num, i, typ, proret, o[i] is o_backup)
-            else:
-                r += dump(i, space, num, '', typ, proret)
-            num += 1
-            space -= TAB_SIZE
-        return r
+    o_backup = o
+    num = 0
 
-    return ''
+    if type(o) in (tuple, list, dict):
+        typ = type(o)  # type of the container of str, int, long, float etc
+    elif isinstance(o, object):
+        try:
+            o = o.__dict__
+        except AttributeError:
+            return r
+        typ = object
+    for i in o:
+        space += TAB_SIZE
+        if type(o) is dict:
+            r += dump(o[i], space, num, i, typ, proret, o[i] is o_backup)
+        else:
+            r += dump(i, space, num, '', typ, proret)
+        num += 1
+        space -= TAB_SIZE
+    return r
 
 
 def var_dump(*obs):
