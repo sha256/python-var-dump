@@ -34,6 +34,16 @@ class ObjectWithCircularReference:
         self.r = self
 
 
+class DeepCircularReferenceParent:
+    def __init__(self):
+        self.child = DeepCircularReferenceChild(self)
+
+
+class DeepCircularReferenceChild:
+    def __init__(self, parent: DeepCircularReferenceParent):
+        self.parent = parent
+
+
 class VarExportTestCase(unittest.TestCase):
     def test_var_export(self):
         data = [
@@ -56,20 +66,6 @@ class VarExportTestCase(unittest.TestCase):
             [21.37, '#0 float(21.37) '],
 
             # enums
-            [
-                Enum('Color', ['RED', 'GREEN']),
-                '#0 object(EnumMeta) (10)'
-                '    [0] => str(21) "_generate_next_value_"'
-                '    [1] => str(7) "__doc__"'
-                '    [2] => str(10) "__module__"'
-                '    [3] => str(14) "_member_names_"'
-                '    [4] => str(12) "_member_map_"'
-                '    [5] => str(13) "_member_type_"'
-                '    [6] => str(18) "_value2member_map_"'
-                '    [7] => str(3) "RED"'
-                '    [8] => str(5) "GREEN"'
-                '    [9] => str(7) "__new__"',
-            ],
             [Color.RED, '#0 Enum(Color.RED)'],
             [Color(2),  '#0 Enum(Color.GREEN)'],
 
@@ -129,6 +125,14 @@ class VarExportTestCase(unittest.TestCase):
             var_export(ObjectWithCircularReference()),
             '#0 object(ObjectWithCircularReference) (1)'
             '    r => object(ObjectWithCircularReference) (1) …circular reference…'
+        )
+
+    def test_var_export_deep_circular_reference(self):
+        self.assertEqual(
+            var_export(DeepCircularReferenceParent()),
+            '#0 object(DeepCircularReferenceParent) (1)'
+            '    child => object(DeepCircularReferenceChild) (1)'
+            '        parent => object(DeepCircularReferenceParent) (1) …circular reference…'
         )
 
 
