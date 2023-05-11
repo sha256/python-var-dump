@@ -29,7 +29,7 @@ class ObjectWithoutDict:
     __slots__ = ()
 
 
-class Recursive:
+class ObjectWithCircularReference:
     def __init__(self):
         self.r = self
 
@@ -124,11 +124,11 @@ class VarExportTestCase(unittest.TestCase):
             '\(<tests.var_export_test.ObjectWithoutDict object at 0x(\w+)>\)'
         )
 
-    def test_var_export_recursion(self):
+    def test_var_export_circular_reference(self):
         self.assertEqual(
-            var_export(Recursive()),
-            '#0 object(Recursive) (1)'
-            '    r => object(Recursive) (1) …recursion…'
+            var_export(ObjectWithCircularReference()),
+            '#0 object(ObjectWithCircularReference) (1)'
+            '    r => object(ObjectWithCircularReference) (1) …circular reference…'
         )
 
 

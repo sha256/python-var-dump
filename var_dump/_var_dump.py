@@ -70,7 +70,7 @@ def display(o, space, num, key, typ, proret):
     return st % tuple(l)
 
 
-def dump(o, space, num, key, typ, proret, recursion=False):
+def dump(o, space, num, key, typ, proret, circular_reference=False):
     if type(o) in (str, int, float, long, bool, NoneType, unicode, Enum) or isinstance(o, Enum):
         return display(o, space, num, key, typ, proret)
 
@@ -79,8 +79,8 @@ def dump(o, space, num, key, typ, proret, recursion=False):
 
     r = display(o, space, num, key, typ, proret)
 
-    if recursion:
-        return r + ' …recursion…'
+    if circular_reference:
+        return r + ' …circular reference…'
 
     o_backup = o
     num = 0
