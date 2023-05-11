@@ -17,7 +17,7 @@ using `pip`
 
 Or
 
-clone the project & cd into the `python-var_dump` directory
+clone the project & cd into the `python-var-dump` directory
 then run:
 	
 	python setup.py install
