@@ -44,6 +44,14 @@ class DeepCircularReferenceChild:
         self.parent = parent
 
 
+class ParentObjectThatIsEqualToOthers:
+    def __init__(self):
+        self.foo = Foo()
+
+    def __eq__(self, other):
+        return True
+
+
 class VarExportTestCase(unittest.TestCase):
     def test_var_export(self):
         data = [
@@ -125,6 +133,16 @@ class VarExportTestCase(unittest.TestCase):
             var_export(ObjectWithCircularReference()),
             '#0 object(ObjectWithCircularReference) (1)'
             '    r => object(ObjectWithCircularReference) (1) …circular reference…'
+        )
+
+    def test_var_export_compares_parents_by_reference_not_value(self):
+        self.assertEqual(
+            var_export(ParentObjectThatIsEqualToOthers()),
+            '#0 object(ParentObjectThatIsEqualToOthers) (1)'
+            '    foo => object(Foo) (3)'
+            '        x => int(5) '
+            '        y => str(3) "abc"'
+            '        z => bool(True) '
         )
 
     def test_var_export_deep_circular_reference(self):
