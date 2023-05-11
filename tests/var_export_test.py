@@ -29,6 +29,11 @@ class ObjectWithoutDict:
     __slots__ = ()
 
 
+class Recursive:
+    def __init__(self):
+        self.r = self
+
+
 class VarExportTestCase(unittest.TestCase):
     def test_var_export(self):
         data = [
@@ -117,6 +122,13 @@ class VarExportTestCase(unittest.TestCase):
             var_export(ObjectWithoutDict()),
             '#0 object\(ObjectWithoutDict\) '
             '\(<tests.var_export_test.ObjectWithoutDict object at 0x(\w+)>\)'
+        )
+
+    def test_var_export_recursion(self):
+        self.assertEqual(
+            var_export(Recursive()),
+            '#0 object(Recursive) (1)'
+            '    r => object(Recursive) (1) …recursion…'
         )
 
 
