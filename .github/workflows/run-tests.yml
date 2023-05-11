@@ -10,13 +10,32 @@ on:
 
 
 jobs:
-  publish:
+  run_tests:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     strategy:
       matrix:
-        python-version: [2.7, 3.2, 3.11]
+        python-version: [3.7, 3.11]
+    name: Run unit tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run tests
+        run: |
+          python -m unittest tests
+
+  run_tests_older_python:
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        python-version: [ 3.5 ]
     name: Run unit tests
     steps:
       - name: Checkout
