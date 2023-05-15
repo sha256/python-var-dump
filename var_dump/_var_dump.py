@@ -81,7 +81,7 @@ def dump(o, space, num, key, typ, proret, parents=None):
 
     if parents is None:
         parents = []
-    elif o in parents:
+    elif any(o is parent for parent in parents):
         return r + ' …circular reference…'
 
     parents.append(o)
