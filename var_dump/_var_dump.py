@@ -58,7 +58,10 @@ def display(o, space, num, key, typ, proret):
 
     elif isinstance(o, object):
         st += "object(%s) (%s)"
-        l.append(o.__class__.__name__)
+        try:
+            l.append(str(o))
+        except:
+            l.append(o.__class__.__name__)
         try:
             l.append(len(o.__dict__))
         except AttributeError:
