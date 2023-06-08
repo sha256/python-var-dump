@@ -65,8 +65,15 @@ def display(o, space, num, key, typ, proret):
             l.append(str(o))
 
     if proret:
-        print(st % tuple(l))
-
+        try:
+            print(st % tuple(l))
+        except UnicodeEncodeError as err:
+            # may happen on Windows when stdout is piped to a file
+            # for unknown reasons... ref https://github.com/sha256/python-var-dump/issues/19
+            # lets replace all non-ascii characters with \xHEX
+            lc = list(l)
+            lc[3] = lc[3].encode('ascii', 'backslashreplace').decode('ascii', 'backslashreplace')
+            print(st % tuple(lc))
     return st % tuple(l)
 
 
